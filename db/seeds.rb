@@ -11,10 +11,27 @@ Airport.delete_all
 Airport.create(
   [
     {
-      code: 'SFO'
+      code: 'SFO',
+      id: 1
     },
     {
-      code: 'NYC'
+      code: 'NYC',
+      id: 2
+    }
+  ]
+)
+
+Flight.delete_all
+
+Flight.create(
+  [
+    {
+      departure_time: Time.now + (2 * 7 * 24 * 3600),
+      arrival_time: Time.now + (2 * 7 * 26 * 3600),
+      price: 220.00,
+      departure_airport_id: 1,
+      arrival_airport_id: 2,
+      id: 1
     }
   ]
 )
