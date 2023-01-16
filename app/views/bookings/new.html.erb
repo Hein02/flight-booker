@@ -8,3 +8,20 @@
 <p>Arrival time: <%= Time.at(@flight.arrival_time).strftime("%F %I:%M %p") %></p>
 <p>Duration: <%= ((Time.at(@flight.arrival_time) - Time.at(@flight.departure_time))/3600).to_i %> HR</p>
 <p>Price: $<%= @flight.price %></p>
+
+<form action='/bookings' method='post'>
+  <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+  <input type='hidden' name='booking[flight_id]' value='<%= @flight.id %>'/>
+  <% @num_passengers.to_i.times do |_| %>
+    <div>
+      <label for='name'>Name: </label>
+      <input type='text' name='booking[passengers][][name]' id='name'/>
+    </div>
+    <div>
+      <label for='email'>Email: </label>
+      <input type='text' name='booking[passengers][][email]' id='email'/>
+    </div>
+  <% end %>
+
+  <input type='submit' >
+</form>
