@@ -33,55 +33,20 @@ end
 
 Flight.delete_all
 
-Flight.create(
-  [
+60.times do |idx|
+  date1 = Time.now
+  date2 = Time.now + (12 * 31 * 24 * 3600)
+  # https://stackoverflow.com/questions/2683857/how-to-generate-a-random-date-and-time-between-two-dates
+  departure_time = Time.at((date2.to_f - date1.to_f) * rand + date1.to_f)
+  arrival_time = departure_time + Random.new.rand(1..20)
+  Flight.create(
     {
-      departure_time: Time.now + (2 * 7 * 24 * 3600),
-      arrival_time: Time.now + (2 * 7 * 26 * 3600),
-      price: 220.00,
-      departure_airport_id: 1,
-      arrival_airport_id: 2,
-      id: 1
-    },
-    {
-      departure_time: Time.now + (3 * 7 * 24 * 3600),
-      arrival_time: Time.now + (3 * 7 * 26 * 3600),
-      price: 320.50,
-      departure_airport_id: 2,
-      arrival_airport_id: 4,
-      id: 2
-    },
-    {
-      departure_time: Time.now + (2 * 8 * 24 * 3600),
-      arrival_time: Time.now + (2 * 8 * 26 * 3600),
-      price: 270.00,
-      departure_airport_id: 10,
-      arrival_airport_id: 12,
-      id: 3
-    },
-    {
-      departure_time: Time.now + (2 * 10 * 24 * 3600),
-      arrival_time: Time.now + (2 * 10 * 30 * 3600),
-      price: 130.00,
-      departure_airport_id: 15,
-      arrival_airport_id: 2,
-      id: 4
-    },
-    {
-      departure_time: Time.now + (2 * 12 * 24 * 3600),
-      arrival_time: Time.now + (2 * 12 * 32 * 3600),
-      price: 235.00,
-      departure_airport_id: 6,
-      arrival_airport_id: 9,
-      id: 5
-    },
-    {
-      departure_time: Time.now + (2 * 7 * 24 * 3600),
-      arrival_time: Time.now + (2 * 7 * 26 * 3600),
-      price: 220.00,
-      departure_airport_id: 1,
-      arrival_airport_id: 2,
-      id: 6
+      departure_time:,
+      arrival_time:,
+      departure_airport_id: Random.new.rand(1..30),
+      arrival_airport_id: Random.new.rand(1..30),
+      id: idx,
+      price: Random.new.rand(100.00..300.00).round(2)
     }
-  ]
-)
+  )
+end
