@@ -5,73 +5,31 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+require 'json'
 
 Airport.delete_all
 
-Airport.create(
-  [
-    {
-      code: 'SFO',
-      id: 1
-    },
-    {
-      code: 'NYC',
-      id: 2
-    },
-    {
-      code: 'ATL',
-      id: 3
-    },
-    {
-      code: 'LAX',
-      id: 4
-    },
-    {
-      code: 'ORD',
-      id: 5
-    },
-    {
-      code: 'DFW',
-      id: 6
-    },
-    {
-      code: 'DEN',
-      id: 7
-    },
-    {
-      code: 'JFK',
-      id: 8
-    },
-    {
-      code: 'SEA',
-      id: 9
-    },
-    {
-      code: 'MCO',
-      id: 10
-    },
-    {
-      code: 'LAS',
-      id: 11
-    },
-    {
-      code: 'CLT',
-      id: 12
-    },
-    {
-      code: 'EWR',
-      id: 13
-    },
-    {
-      code: 'PHX',
-      id: 14
-    },
-    {
-      code: 'IAH',
-      id: 15
-    }
-  ]
-)
+if Airport.count.zero?
+  path = File.join(File.dirname(__FILE__), './seeds/airports.json')
+  records = JSON.parse(File.read(path))
+  records.each_with_index do |(_, record), idx|
+    break if idx == 30
+
+    Airport.create!(
+      {
+        id: idx + 1,
+        icao: record['icao'],
+        iata: record['iata'],
+        name: record['name'],
+        city: record['city'],
+        state: record['state'],
+        country: record['country'],
+        tz: record['tz']
+      }
+    )
+  end
+  puts 'airports are seeded'
+end
 
 Flight.delete_all
 
