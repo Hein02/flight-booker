@@ -1,6 +1,7 @@
 <h1>Booking</h1>
 
 <h2>Flight details</h2>
+
 <p>Number of passengers: <%= @num_passengers %></p>
 <p>Departure airport: <%= @flight.departure_airport.name %></p>
 <p>Arrival airport: <%= @flight.arrival_airport.name %></p>
@@ -9,10 +10,13 @@
 <p>Duration: <%= ((Time.at(@flight.arrival_time) - Time.at(@flight.departure_time))/3600).to_i %> HR</p>
 <p>Price: $<%= @flight.price %></p>
 
+<h2>Passengers information</h2>
+
 <form action='/bookings' method='post'>
   <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
   <input type='hidden' name='booking[flight_id]' value='<%= @flight.id %>'/>
-  <% @num_passengers.to_i.times do |_| %>
+  <% @num_passengers.to_i.times do |i| %>
+    <h3>Passenger <%= i + 1%></h3>
     <div>
       <label for='name'>Name: </label>
       <input type='text' name='booking[passengers][][name]' id='name'/>
