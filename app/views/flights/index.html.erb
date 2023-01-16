@@ -51,7 +51,7 @@
           <%= ((Time.at(f.arrival_time) - Time.at(f.departure_time))/3600).to_i %>
         </div>
         <div>
-          <%= f.departure_airport.code %> - <%= f.arrival_airport.code %>
+          <%= f.departure_airport.name %> - <%= f.arrival_airport.name %>
         </div>
         <div><%= f.price %></div>
       </div>
