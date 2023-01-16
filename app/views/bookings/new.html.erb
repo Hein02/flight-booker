@@ -1,0 +1,10 @@
+<h1>Booking</h1>
+
+<h2>Flight details</h2>
+<p>Number of passengers: <%= @num_passengers %></p>
+<p>Departure airport: <%= @flight.departure_airport.name %></p>
+<p>Arrival airport: <%= @flight.arrival_airport.name %></p>
+<p>Departure time: <%= Time.at(@flight.departure_time).strftime("%F %I:%M %p") %></p>
+<p>Arrival time: <%= Time.at(@flight.arrival_time).strftime("%F %I:%M %p") %></p>
+<p>Duration: <%= ((Time.at(@flight.arrival_time) - Time.at(@flight.departure_time))/3600).to_i %> HR</p>
+<p>Price: $<%= @flight.price %></p>

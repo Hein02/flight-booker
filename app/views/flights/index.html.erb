@@ -21,7 +21,7 @@
 
   <div>
     <label for='num_passengers'>Number of passengers: </label>
-    <input type='number' id='num_passengers' name='num_passengers' min='1' max='50'/>
+    <input type='number' id='num_passengers' name='num_passengers' value='1' min='1' max='50'/>
   </div>
 
   <div>
@@ -33,7 +33,7 @@
 </form>
 
 <% if !@flights.empty? %>
-  <form action='/flights' method='get'>
+  <form action='/bookings/new' method='get'>
     <% @flights.each do |f| %>
       <div>
         <input type='hidden' name='num_passengers' value=<%= @num_passengers %>>
