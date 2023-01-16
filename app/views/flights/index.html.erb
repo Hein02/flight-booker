@@ -1,2 +1,50 @@
-<h1>Flights#index</h1>
-<p>Find me in app/views/flights/index.html.erb</p>
+<h1>Flights</h1>
+
+<form action='/flights' method='get'>
+  <div>
+    <label for='departure'>Departure airport: </label>
+    <select name='departure' id='departure' >
+      <% @airports.each do |d_a| %>
+        <option value=<%= d_a.id %>><%= d_a.code %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <div>
+    <label for='arrival'>Arrival airport: </label>
+    <select name='arrival' id='arrival' >
+      <% @airports.each do |a_a| %>
+        <option value=<%= a_a.id %>><%= a_a.code %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <div>
+    <label for='num_passengers'>Number of passengers: </label>
+    <input type='number' id='num_passengers' name='num_passengers' />
+  </div>
+
+  <div>
+    <label for='date'>Date: </label>
+    <input type='date' id='date' name='date' value='<%= @date %>' />
+  </div>
+
+  <input type='submit' />
+</form>
+
+<ul>
+  <% @flights.each do |f| %>
+    <li><%= Time.at(f.departure_time).strftime("%F %I:%M %p") %></li>
+    <li><%= Time.at(f.arrival_time).strftime("%F %I:%M %p") %></li>
+    <li>
+      Duration:
+      <%= ((Time.at(f.arrival_time) - Time.at(f.departure_time))/3600).to_i %>
+    </li>
+    <li>
+      <%= f.departure_airport.code %>
+      -
+      <%= f.arrival_airport.code %>
+    </li>
+    <li><%= f.price %></li>
+  <% end %>
+</ul>
