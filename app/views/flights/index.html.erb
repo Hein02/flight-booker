@@ -21,7 +21,7 @@
 
   <div>
     <label for='num_passengers'>Number of passengers: </label>
-    <input type='number' id='num_passengers' name='num_passengers' />
+    <input type='number' id='num_passengers' name='num_passengers' min='1' max='50'/>
   </div>
 
   <div>
@@ -29,22 +29,34 @@
     <input type='date' id='date' name='date' value='<%= @date %>' />
   </div>
 
-  <input type='submit' />
+  <input type='submit' value='Search' />
 </form>
 
-<ul>
-  <% @flights.each do |f| %>
-    <li><%= Time.at(f.departure_time).strftime("%F %I:%M %p") %></li>
-    <li><%= Time.at(f.arrival_time).strftime("%F %I:%M %p") %></li>
-    <li>
-      Duration:
-      <%= ((Time.at(f.arrival_time) - Time.at(f.departure_time))/3600).to_i %>
-    </li>
-    <li>
-      <%= f.departure_airport.code %>
-      -
-      <%= f.arrival_airport.code %>
-    </li>
-    <li><%= f.price %></li>
-  <% end %>
-</ul>
+<% if !@flights.empty? %>
+  <form action='/flights' method='get'>
+    <% @flights.each do |f| %>
+      <div>
+        <input type='hidden' name='num_passengers' value=<%= @num_passengers %>>
+        <input type="radio" id="huey" name="flight" value=<%= f.id %> checked>
+        <div>
+          Departure time:
+          <%= Time.at(f.departure_time).strftime("%F %I:%M %p") %>
+        </div>
+        <div>
+          Arrival time:
+          <%= Time.at(f.arrival_time).strftime("%F %I:%M %p") %>
+        </div>
+        <div>
+          Duration:
+          <%= ((Time.at(f.arrival_time) - Time.at(f.departure_time))/3600).to_i %>
+        </div>
+        <div>
+          <%= f.departure_airport.code %> - <%= f.arrival_airport.code %>
+        </div>
+        <div><%= f.price %></div>
+      </div>
+    <% end %>
+
+    <input type='submit' />
+  </form>
+<% end %>

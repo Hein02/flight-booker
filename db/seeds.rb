@@ -116,6 +116,14 @@ Flight.create(
       departure_airport_id: 6,
       arrival_airport_id: 9,
       id: 5
+    },
+    {
+      departure_time: Time.now + (2 * 7 * 24 * 3600),
+      arrival_time: Time.now + (2 * 7 * 26 * 3600),
+      price: 220.00,
+      departure_airport_id: 1,
+      arrival_airport_id: 2,
+      id: 6
     }
   ]
 )

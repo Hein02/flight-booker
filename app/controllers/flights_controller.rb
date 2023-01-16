@@ -12,5 +12,6 @@ class FlightsController < ApplicationController
       # https://stackoverflow.com/questions/13211916/rails-activerecord-find-search-by-date
       departure_time: start_time..end_time
     )
+    @num_passengers = params[:num_passengers]
   end
 end
