@@ -1,62 +1,90 @@
-<h1>Flights</h1>
+<h1 class='flex justify-center text-5xl font-medium m-4'>Flights</h1>
 
-<form action='/flights' method='get'>
-  <div>
-    <label for='departure'>Departure airport: </label>
-    <select name='departure' id='departure' >
-      <% @airports.each do |d_a| %>
-        <option value=<%= d_a.id %>><%= d_a.name %></option>
-      <% end %>
-    </select>
+<form action='/flights' method='get' class='flex flex-col items-center gap-2 bg-[#35373A] p-6 my-2 rounded-md max-w-fit mx-auto'>
+  <div class='flex-grow w-full'>
+    <div class='flex gap-4 items-center'>
+      <div class='w-3'>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+        </svg>
+      </div>
+      <div>
+        <input type='number' id='num_passengers' name='num_passengers' value='1' min='1' max='50' class='bg-transparent rounded-md'/>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <label for='arrival'>Arrival airport: </label>
-    <select name='arrival' id='arrival' >
-      <% @airports.each do |a_a| %>
-        <option value=<%= a_a.id %>><%= a_a.name %></option>
-      <% end %>
-    </select>
+  <div class='flex justify-center items-center gap-2'>
+    <div class='flex gap-4 items-center border rounded-md pl-2'>
+      <div class='w-3'>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+        </svg>
+      </div>
+
+      <select name='departure' id='departure' class='bg-transparent border-none rounded-r-md'>
+        <% @airports.each do |d_a| %>
+          <option value=<%= d_a.id %>><%= d_a.city %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div class='w-3 mr-2'>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+      </svg>
+    </div>
+
+    <div class='flex gap-4 items-center'>
+      <div class='border rounded-md flex items-center gap-4 pl-2'>
+        <div class='w-3'>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+          </svg>
+        </div>
+
+        <select name='arrival' id='arrival' class='bg-transparent border-none rounded-r-md'>
+          <% @airports.each do |a_a| %>
+            <option value=<%= a_a.id %>><%= a_a.city %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+
+    <input type='date' id='date' name='date' value='<%= @date %>' class='bg-transparent rounded-md'/>
   </div>
 
-  <div>
-    <label for='num_passengers'>Number of passengers: </label>
-    <input type='number' id='num_passengers' name='num_passengers' value='1' min='1' max='50'/>
-  </div>
-
-  <div>
-    <label for='date'>Date: </label>
-    <input type='date' id='date' name='date' value='<%= @date %>' />
-  </div>
-
-  <input type='submit' value='Search' />
+  <button type='submit' class='bg-[#8AB4F8] rounded-full px-4 py-2 text-slate-800 flex gap-4 items-center mt-4'>
+    <div class='w-3'>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+      </svg>
+    </div>
+    Search
+  </button>
 </form>
 
 <% if !@flights.empty? %>
-  <form action='/bookings/new' method='get'>
+  <form action='/bookings/new' method='get' class='flex gap-4 min-w-fit items-center p-4 rounded-lg border-gray-700 border'>
     <% @flights.each do |f| %>
+      <input type='hidden' name='num_passengers' value=<%= @num_passengers %>>
       <div>
-        <input type='hidden' name='num_passengers' value=<%= @num_passengers %>>
-        <input type="radio" id="huey" name="flight" value=<%= f.id %> checked>
-        <div>
-          Departure time:
-          <%= Time.at(f.departure_time).strftime("%F %I:%M %p") %>
-        </div>
-        <div>
-          Arrival time:
-          <%= Time.at(f.arrival_time).strftime("%F %I:%M %p") %>
-        </div>
-        <div>
-          Duration:
-          <%= ((Time.at(f.arrival_time) - Time.at(f.departure_time))/3600).to_i %>
-        </div>
-        <div>
-          <%= f.departure_airport.name %> - <%= f.arrival_airport.name %>
-        </div>
-        <div><%= f.price %></div>
+        <%= Time.at(f.departure_time).strftime("%F %I:%M %p") %> - <%= Time.at(f.arrival_time).strftime("%F %I:%M %p") %>
       </div>
+      <div>
+        <%= ((Time.at(f.arrival_time) - Time.at(f.departure_time))/3600).to_i %>
+      </div>
+      <div>
+        <%= f.departure_airport.city %> - <%= f.arrival_airport.city %>
+      </div>
+      <input type="radio" id="huey" name="flight" value=<%= f.id %> checked>
+      <div class='flex-grow'>$ <%= f.price %></div>
     <% end %>
 
-    <input type='submit' />
+    <button type='submit' class='bg-[#8AB4F8] rounded-sm px-4 py-2 text-slate-800'>
+      Select
+    </button>
   </form>
 <% end %>

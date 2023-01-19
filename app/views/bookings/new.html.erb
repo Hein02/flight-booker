@@ -1,31 +1,62 @@
-<h1>Booking</h1>
+<div class='flex justify-between'>
+  <div class='flex'>
+    <p>One way</p>
+    <div class='mx-3'>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+      </svg>
+    </div>
+    <div><%= @num_passengers %></div>
+  </div>
+  <div>
+    <p>Total price</p>
+    <div>$ <%= @flight.price %></div>
+  </div>
+</div>
 
-<h2>Flight details</h2>
+<div class='flex gap-4'>
+  <p><%= @flight.departure_airport.city %></p>
+  <div class='w-3 mr-2'>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  </div>
+  <p><%= @flight.arrival_airport.city %></p>
+</div>
 
-<p>Number of passengers: <%= @num_passengers %></p>
-<p>Departure airport: <%= @flight.departure_airport.name %></p>
-<p>Arrival airport: <%= @flight.arrival_airport.name %></p>
-<p>Departure time: <%= Time.at(@flight.departure_time).strftime("%F %I:%M %p") %></p>
-<p>Arrival time: <%= Time.at(@flight.arrival_time).strftime("%F %I:%M %p") %></p>
-<p>Duration: <%= ((Time.at(@flight.arrival_time) - Time.at(@flight.departure_time))/3600).to_i %> HR</p>
-<p>Price: $<%= @flight.price %></p>
+<h2 class='my-4'>Selected flight</h2>
+<div class='flex gap-4 min-w-fit justify-between items-center p-4 rounded-lg border-gray-700 border mx-auto'>
+  <input type='hidden' name='num_passengers' value=<%= @num_passengers %>>
+  <div>
+    <%= Time.at(@flight.departure_time).strftime("%F %I:%M %p") %> - <%= Time.at(@flight.arrival_time).strftime("%F %I:%M %p") %>
+  </div>
+  <div>
+    <%= ((Time.at(@flight.arrival_time) - Time.at(@flight.departure_time))/3600).to_i %>
+  </div>
+  <div>
+    <%= @flight.departure_airport.city %> - <%= @flight.arrival_airport.city %>
+  </div>
 
-<h2>Passengers information</h2>
+</div>
 
-<form action='/bookings' method='post'>
+<h2 class='my-4'>Passengers details</h2>
+
+<form action='/bookings' method='post' class='flex flex-col gap-4 mx-auto border border-gray-700 p-4 rounded-md'>
   <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
   <input type='hidden' name='booking[flight_id]' value='<%= @flight.id %>'/>
   <% @num_passengers.to_i.times do |i| %>
     <h3>Passenger <%= i + 1%></h3>
     <div>
-      <label for='name'>Name: </label>
-      <input type='text' name='booking[passengers][][name]' id='name'/>
+      <label for='name' class='hidden'>Name</label>
+      <input type='text' name='booking[passengers][][name]' id='name' placeholder='Name' class='bg-transparent rounded-md'/>
     </div>
     <div>
-      <label for='email'>Email: </label>
-      <input type='text' name='booking[passengers][][email]' id='email'/>
+      <label for='email' class='hidden'>Email</label>
+      <input type='text' name='booking[passengers][][email]' id='email' placeholder='Email' class='bg-transparent rounded-md'/>
     </div>
   <% end %>
 
-  <input type='submit' >
+  <button type='submit' class='bg-[#8AB4F8] rounded-sm px-4 py-2 text-slate-800 max-w-fit'>
+    Continue
+  </button>
 </form>
